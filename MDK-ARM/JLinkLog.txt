@@ -1,0 +1,44 @@
+T337C 135:650 SEGGER J-Link V6.30h Log File (0001ms, 14316ms total)
+T337C 135:650 DLL Compiled: Mar 16 2018 18:02:51 (0001ms, 14316ms total)
+T337C 135:650 Logging started @ 2019-01-05 14:12 (0001ms, 14316ms total)
+T337C 135:651 JLINK_SetWarnOutHandler(...) (0000ms, 14316ms total)
+T337C 135:651 JLINK_OpenEx(...)
+Firmware: J-Link V9 compiled Oct 25 2018 11:46:07
+Hardware: V9.20
+S/N: 13210002
+Feature(s): GDB, RDI, FlashBP, FlashDL, JFlash, RDDI
+TELNET listener socket opened on port 19021WEBSRV 
+Starting webserver (0153ms, 14469ms total)
+T337C 135:651 WEBSRV Webserver running on local port 19080 (0154ms, 14470ms total)
+T337C 135:651   returns O.K. (0154ms, 14470ms total)
+T337C 135:805 JLINK_GetEmuCaps()  returns 0xB9FF7BBF (0000ms, 14470ms total)
+T337C 135:806 JLINK_TIF_GetAvailable(...) (0000ms, 14470ms total)
+T337C 135:806 JLINK_SetErrorOutHandler(...) (0000ms, 14470ms total)
+T337C 135:806 JLINK_ExecCommand("ProjectFile = "C:\Users\wmd\OneDrive\ÎÄµµ\STM32\SmartCar\MDK-ARM\JLinkSettings.ini"", ...).   returns 0x00 (0006ms, 14476ms total)
+T337C 135:812 JLINK_ExecCommand("Device = STM32F405RGTx", ...). Device "STM32F405RG" selected.  returns 0x00 (0003ms, 14479ms total)
+T337C 135:815 JLINK_ExecCommand("DisableConnectionTimeout", ...).   returns 0x01 (0000ms, 14479ms total)
+T337C 135:815 JLINK_GetHardwareVersion()  returns 0x16760 (0000ms, 14479ms total)
+T337C 135:815 JLINK_GetDLLVersion()  returns 63008 (0000ms, 14479ms total)
+T337C 135:815 JLINK_GetFirmwareString(...) (0000ms, 14479ms total)
+T337C 135:815 JLINK_GetDLLVersion()  returns 63008 (0000ms, 14479ms total)
+T337C 135:815 JLINK_GetCompileDateTime() (0000ms, 14479ms total)
+T337C 135:815 JLINK_GetFirmwareString(...) (0000ms, 14479ms total)
+T337C 135:815 JLINK_GetHardwareVersion()  returns 0x16760 (0000ms, 14479ms total)
+T337C 135:815 JLINK_TIF_Select(JLINKARM_TIF_SWD)  returns 0x00 (0002ms, 14481ms total)
+T337C 135:817 JLINK_SetSpeed(5000) (0001ms, 14482ms total)
+T337C 135:819 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)  returns JLINKARM_RESET_TYPE_NORMAL (0000ms, 14482ms total)
+T337C 135:819 JLINK_Reset() >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed.
+ >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed.JLINK_GetId() >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. >0x10B TIF> >0x10F TIF>
+ >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed.  returns 0x00000000 (0710ms, 16438ms total)
+T337C 137:776 JLINK_GetId() >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed.
+  returns 0x00000000 (0711ms, 17149ms total)
+T337C 138:489 JLINK_GetFirmwareString(...) (0000ms, 17149ms total)
+T337C 265:605 JLINK_Close() (0017ms, 17166ms total)
+T337C 265:605  (0017ms, 17166ms total)
+T337C 265:605 Closed (0017ms, 17166ms total)
