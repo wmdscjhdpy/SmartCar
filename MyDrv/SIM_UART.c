@@ -11,7 +11,7 @@
 */  
 #include "stm32f4xx_hal.h"
 #include "tim.h"
-#define OI_TXD(x)	HAL_GPIO_WritePin(SIM_UART_TX_GPIO_Port,SIM_UART_TX_Pin,x)
+#define OI_TXD(x)	HAL_GPIO_WritePin(SIM_UART_TX_GPIO_Port,SIM_UART_TX_Pin,(GPIO_PinState)x)
 
 
 uint8_t len = 0;	//接收计数

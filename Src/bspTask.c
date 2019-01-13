@@ -14,10 +14,10 @@ void Start_Task(void const * argument)
   while(1)
   {
      osDelay(5);
-  Play_Sound("小哥");
+    Play_Sound("小哥");
   }
 }
-///记录编码器数值
+///记录编码器数值,整合ADC数据
 static void Encoder_Task(void const * argument)
 {
    int16_t enc_dx;
@@ -27,6 +27,7 @@ static void Encoder_Task(void const * argument)
        enc_dx=TIM1->CNT-0x7fff;
        Enc_Head+=enc_dx;
        TIM1->CNT=0x7fff;
+       ADC_Handler();
        osDelay(10);
    }
 }
