@@ -11,10 +11,12 @@ void Start_Task(void const * argument)
   //创建编码器任务
   osThreadDef(EncoderTask, Encoder_Task, osPriorityNormal, 0, 256);
   osThreadCreate(osThread(EncoderTask), NULL);
+  osDelay(1000);
+  Play_Sound("主人你好，我是疯狗，很高兴与你见面！");
   while(1)
   {
-     osDelay(100);
-    Play_Sound("小哥");
+     osDelay(3000);
+    
     //SIM_UART_Send("hello",6);
   }
 }

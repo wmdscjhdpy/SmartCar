@@ -8,6 +8,7 @@ uint16_t Distance1;//红外对管2的电压值
 //初始化所有车载模块
 void BSP_Init()
 {
+    
     //底盘PWM
     HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_ALL);
     //抬头编码器

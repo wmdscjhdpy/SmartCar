@@ -7,7 +7,7 @@
 #include "usart.h"
 #define VOICE_UART huart4
 #define PrintCom(x,y) SIM_UART_Send(x,y)
-#define PLAYING HAL_GPIO_ReadPin(BUSY_GPIO_Port,BUSY_Pin)
+#define PLAYING HAL_GPIO_ReadPin(BUSY_GPIO_Port,(GPIO_PinState)BUSY_Pin)
 void SIM_UART_Send(uint8_t *buf, uint16_t len);
 void SYN_FrameInfo(uint8_t Music,uint8_t *HZdata);
 void YS_SYN_Set(uint8_t *Info_data);
