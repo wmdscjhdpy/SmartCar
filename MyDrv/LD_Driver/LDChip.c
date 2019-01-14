@@ -10,12 +10,12 @@
 **  修改日期：2012.4.11
 **  说明：本程序 具备语音识别、串口通信、开发板基本功能演示。
 ***************************乐声电子科技有限公司******************************/
-#include "includes.h"
-
-uint8 nLD_Mode = LD_MODE_IDLE;		//	用来记录当前是在进行ASR识别还是在播放MP3
-
-uint8 ucRegVal;
-extern uint8  nAsrStatus;
+#include "bsp.h"
+#include "LDchip.h"
+#include "Reg_RW.h"
+uint8_t nLD_Mode = LD_MODE_IDLE;		//	用来记录当前是在进行ASR识别还是在播放MP3
+uint8_t nAsrStatus=0;	
+uint8_t ucRegVal;
 
 
 /***********************************************************
@@ -23,17 +23,11 @@ extern uint8  nAsrStatus;
 * 功    能：LD芯片硬件初始化
 * 入口参数：  
 * 出口参数：
-* 说    明：
+* 说    明：因为硬件接口没有引出RST引脚，因此不能软件复位
 * 调用方法： 
 **********************************************************/ 
 void LD_reset(void)
 {
-	LD_RST_H();
-	LD3320_delay(100);
-	LD_RST_L();
-	LD3320_delay(100);
-	LD_RST_H();
-	LD3320_delay(100);
 	LD_CS_L();
 	LD3320_delay(100);
 	LD_CS_H();		
@@ -125,7 +119,7 @@ void LD_Init_ASR(void)
 **********************************************************/ 
 void ProcessInt0(void)
 {
-	uint8 nAsrResCount=0;
+	uint8_t nAsrResCount=0;
 
 	ucRegVal = LD_ReadReg(0x2B);
 
@@ -168,17 +162,17 @@ void ProcessInt0(void)
 }
 
 /***********************************************************
-* 名    称：uint8 LD_Check_ASRBusyFlag_b2(void)
+* 名    称：uint8_t LD_Check_ASRBusyFlag_b2(void)
 * 功    能：检测 ASR 是否忙状态
 * 入口参数：flag ---1：空闲状态  
 * 出口参数：
 * 说    明：
 * 调用方法： 
 **********************************************************/ 
-uint8 LD_Check_ASRBusyFlag_b2(void)
+uint8_t LD_Check_ASRBusyFlag_b2(void)
 {
-	uint8 j;
-	uint8 flag = 0;
+	uint8_t j;
+	uint8_t flag = 0;
 	for (j=0; j<10; j++)
 	{
 		if (LD_ReadReg(0xb2) == 0x21)
@@ -203,14 +197,14 @@ void LD_AsrStart(void)
 	LD_Init_ASR();
 }
 /***********************************************************
-* 名    称： uint8 LD_AsrRun(void)
-* 功    能： ASR执行函数
+* 名    称： uint8_t LD_AsrRun(void)
+* 功    能： ASR底层执行函数 
 * 入口参数：  
 * 出口参数：
 * 说    明：
 * 调用方法： 
 **********************************************************/ 
-uint8 LD_AsrRun(void)
+uint8_t LD_AsrRun(void)
 {
 	LD_WriteReg(0x35, MIC_VOL);
 	LD_WriteReg(0x1C, 0x09);
@@ -237,7 +231,7 @@ uint8 LD_AsrRun(void)
 }
 
 /***********************************************************
-* 名    称：uint8 LD_AsrAddFixed(void)
+* 名    称：uint8_t LD_AsrAddFixed(void)
 * 功    能：添加识别关键词语
 * 入口参数：  
 * 出口参数： flag-- 1：success
@@ -245,22 +239,22 @@ uint8 LD_AsrRun(void)
 						关于垃圾词语吸收错误的用法，提高识别率。
 * 调用方法： 
 **********************************************************/ 
-uint8 LD_AsrAddFixed(void)
+uint8_t LD_AsrAddFixed(void)
 {
-	uint8 k, flag;
-	uint8 nAsrAddLength;
-	#define DATE_A 4    /*数组二维数值*/
+	uint8_t k, flag;
+	uint8_t nAsrAddLength;
+	#define DATE_A 4        /*数组二维数值*/
 	#define DATE_B 20		/*数组一维数值*/
-	 uint8  sRecog[DATE_A][DATE_B] = {
-                                    "liu shui deng",\
-                                    "shan shuo",\
-                                    "an jian chu fa",\
+	 uint8_t  sRecog[DATE_A][DATE_B] = {
+                                    "feng gou",\
+                                    "kai deng",\
+                                    "guan deng",\
                                      "quan mie"\
                                     };	/*添加关键词，用户修改*/
-	 uint8  pCode[DATE_A] = {
-                                        CODE_LSD,\
-                                        CODE_SS,\
-                                         CODE_AJCF,\
+	 uint8_t  pCode[DATE_A] = {
+                                        CODE_CMD,\
+                                        CODE_KD,\
+                                         CODE_GD,\
                                           CODE_QM\
                                     };	/*添加识别码，用户修改*/
 	flag = 1;
@@ -295,17 +289,55 @@ uint8 LD_AsrAddFixed(void)
 }
 
 /***********************************************************
-* 名    称： uint8 LD_GetResult(void)
+* 名    称： uint8_t LD_GetResult(void)
 * 功    能： 获取识别结果
 * 入口参数：  
 * 出口参数： 返回识别码 LD_ReadReg(0xc5 );
 * 说    明：
 * 调用方法： 
 **********************************************************/ 
-uint8 LD_GetResult(void)
+uint8_t LD_GetResult(void)
 {
 	return LD_ReadReg(0xc5 );
 }
 
 
 
+/***********************************************************
+* 名    称：	RunASR(void)
+* 功    能：	运行ASR
+* 入口参数：  
+* 出口参数：
+* 说    明：
+* 调用方法： 
+**********************************************************/ 
+uint8_t RunASR(void)
+{
+	uint8_t i=0;
+	uint8_t asrflag=0;
+	for (i=0; i<5; i++)			//	防止由于硬件原因导致LD3320芯片工作不正常，所以一共尝试5次启动ASR识别流程
+	{
+		LD_AsrStart();			//初始化ASR
+		LD3320_delay(100);
+		if (LD_AsrAddFixed()==0)	//添加关键词语到LD3320芯片中
+		{
+			LD_reset();			//	LD3320芯片内部出现不正常，立即重启LD3320芯片
+			LD3320_delay(50);			//	并从初始化开始重新ASR识别流程
+			continue;
+		}
+
+		LD3320_delay(10);
+
+		if (LD_AsrRun() == 0)
+		{
+			LD_reset();			//	LD3320芯片内部出现不正常，立即重启LD3320芯片
+			LD3320_delay(50);			//	并从初始化开始重新ASR识别流程
+			continue;
+		}
+
+		asrflag=1;
+		break;					//	ASR流程启动成功，退出当前for循环。开始等待LD3320送出的中断信号
+	}
+
+	return asrflag;
+}

@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F405xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy; ../Drivers/CMSIS/Device/ST/STM32F4xx/Include; ../Drivers/CMSIS/Include; ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F; ../Middlewares/Third_Party/FreeRTOS/Source/include; ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS; ..\MyDrv\iic_oled_stable_V4.2; ..\MyDrv\LD_Driver</IncludePath>
+              <IncludePath>../Inc;  ../Drivers/STM32F4xx_HAL_Driver/Inc;  ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;  ../Drivers/CMSIS/Include;  ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;  ../Middlewares/Third_Party/FreeRTOS/Source/include;  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;  ..\MyDrv\iic_oled_stable_V4.2;  ..\MyDrv\LD_Driver</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -635,6 +635,26 @@
               <FileName>Voice.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Voice.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Voice_rec</GroupName>
+          <Files>
+            <File>
+              <FileName>LD3320_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MyDrv\LD_Driver\LD3320_main.c</FilePath>
+            </File>
+            <File>
+              <FileName>LDChip.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MyDrv\LD_Driver\LDChip.c</FilePath>
+            </File>
+            <File>
+              <FileName>Reg_RW.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MyDrv\LD_Driver\Reg_RW.c</FilePath>
             </File>
           </Files>
         </Group>

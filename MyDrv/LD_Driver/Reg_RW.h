@@ -31,11 +31,11 @@
 #define LD_RST_H() GPIO_SetBits(GPIOB, GPIO_Pin_6)
 #define LD_RST_L() GPIO_ResetBits(GPIOB, GPIO_Pin_6)
 
-#define LD_CS_H()	GPIO_SetBits(GPIOB, GPIO_Pin_8)
-#define LD_CS_L()	GPIO_ResetBits(GPIOB, GPIO_Pin_8)
+#define LD_CS_H()	HAL_GPIO_WritePin(SPI_NSS_GPIO_Port,SPI_NSS_Pin,GPIO_PIN_SET)
+#define LD_CS_L()	HAL_GPIO_WritePin(SPI_NSS_GPIO_Port,SPI_NSS_Pin,GPIO_PIN_RESET)
 
-#define LD_SPIS_H()  GPIO_SetBits(GPIOB, GPIO_Pin_9)
-#define LD_SPIS_L()  GPIO_ResetBits(GPIOB, GPIO_Pin_9)
+#define LD_SPIS_H()  HAL_GPIO_WritePin(LD_WR_GPIO_Port,LD_WR_Pin,GPIO_PIN_SET)
+#define LD_SPIS_L()  HAL_GPIO_WritePin(LD_WR_GPIO_Port,LD_WR_Pin,GPIO_PIN_RESET)
 
 
 

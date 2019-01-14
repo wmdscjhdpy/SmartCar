@@ -4,6 +4,7 @@
 #include "stm32f4xx_hal.h"
 #include "tim.h"
 #include "adc.h"
+#include "spi.h"
 #define ADC_BUF_NUM 30
 
 extern int32_t Enc_Head;//Í·²¿±àÂëÆ÷Öµ

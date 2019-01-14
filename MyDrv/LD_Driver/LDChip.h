@@ -11,9 +11,6 @@
 #ifndef LD_CHIP_H
 #define LD_CHIP_H
 
-#define uint8 unsigned char
-#define uint16 unsigned int
-#define uint32 unsigned long
 
 //	以下三个状态定义用来记录程序是在运行ASR识别还是在运行MP3播放
 #define LD_MODE_IDLE		0x00
@@ -30,12 +27,12 @@
 
 
 #define CLK_IN   	8	/* user need modify this value according to clock in */
-#define LD_PLL_11			(uint8)((CLK_IN/2.0)-1)
+#define LD_PLL_11			(uint8_t)((CLK_IN/2.0)-1)
 #define LD_PLL_MP3_19		0x0f
 #define LD_PLL_MP3_1B		0x18
-#define LD_PLL_MP3_1D   	(uint8)(((90.0*((LD_PLL_11)+1))/(CLK_IN))-1)
+#define LD_PLL_MP3_1D   	(uint8_t)(((90.0*((LD_PLL_11)+1))/(CLK_IN))-1)
 
-#define LD_PLL_ASR_19 		(uint8)(CLK_IN*32.0/(LD_PLL_11+1) - 0.51)
+#define LD_PLL_ASR_19 		(uint8_t)(CLK_IN*32.0/(LD_PLL_11+1) - 0.51)
 #define LD_PLL_ASR_1B 		0x48
 #define LD_PLL_ASR_1D 		0x1f
 
@@ -51,31 +48,18 @@
 
 
 void LD_reset(void);
-
-void LD_Init_Common(void);
-
-void LD_Init_ASR(void);
-
-void LD_ReloadMp3Data(void);
-void LD_ReloadMp3Data_2(void);
-
-uint8 LD_ProcessAsr(uint32 RecogAddr);
-void LD_AsrStart(void);
-uint8 LD_AsrRun(void);
-uint8 LD_AsrAddFixed(void);
-uint8 LD_GetResult(void);
-
-void LD_ReadMemoryBlock(uint8 dev, uint8 * ptr, uint32 addr, uint8 count);
-void LD_WriteMemoryBlock(uint8 dev, uint8 * ptr, uint32 addr, uint8 count);
-
-extern uint8  nLD_Mode;
+void ProcessInt0(void);//判断声音识别id
+uint8_t LD_GetResult(void);//判断后获得识别的id
+uint8_t RunASR(void);//相当于初始化
+extern uint8_t  nLD_Mode;
+extern uint8_t  nAsrStatus;
 
 
 //识别码（客户修改处）
-#define CODE_LSD	1	 /*流水灯*/
-#define CODE_SS	  2	 /*闪烁*/
-#define CODE_AJCF	3	 /*按键触发*/
-#define CODE_QM	  4	 /*全灭*/
+#define CODE_CMD	0	 /*唤醒指令*/
+#define CODE_KD	  2	    /*闪烁*/
+#define CODE_GD	3	 /*按键触发*/
+#define CODE_QM	  4	    /*全灭*/
 
 void  LD3320_delay(unsigned long uldata);
 
