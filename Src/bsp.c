@@ -29,7 +29,7 @@ void ADC_Handler(void)
         tmp_b+=ADC_Buffer[i*3+1];
         tmp_c+=ADC_Buffer[i*3+2];
     }
-    Battery_V=((tmp_a*3/ADC_BUF_NUM)/4096)*3.3f*2;//最终电池电压
+    Battery_V=((tmp_a*3/ADC_BUF_NUM)/4096)*3.7f*2;//最终电池电压
     Distance0=tmp_b*3/ADC_BUF_NUM;
     Distance1=tmp_c*3/ADC_BUF_NUM;
 }

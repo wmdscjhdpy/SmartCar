@@ -11,7 +11,7 @@
 */  
 #include "stm32f4xx_hal.h"
 #include "tim.h"
-#define OI_TXD(x)	HAL_GPIO_WritePin(SIM_UART_TX_GPIO_Port,SIM_UART_TX_Pin,(GPIO_PinState)x)
+#define OI_TXD(x)	HAL_GPIO_WritePin(SIM_UART_TX_GPIO_Port,SIM_UART_TX_Pin,(GPIO_PinState)!x)
 
 
 uint8_t len = 0;	//接收计数
@@ -36,7 +36,7 @@ void wait_bit(void)
 {
     TIM10->CNT=0;
     HAL_TIM_Base_Start(&htim10);
-    while(TIM10->CNT<10);//等待9次计数
+    while(TIM10->CNT<20);//等待9次计数
     HAL_TIM_Base_Stop(&htim10);
 }
 void IO_TXD(uint8_t Data)

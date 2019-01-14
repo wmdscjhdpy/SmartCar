@@ -11,7 +11,7 @@ void SYN_FrameInfo(uint8_t Music,uint8_t *HZdata)
 		 Frame_Info[1] = 0x00 ; 			
 		 Frame_Info[2] = HZ_Length + 3; 		
 		 Frame_Info[3] = 0x01 ; 				 		 
-         Frame_Info[4] = 0x00 | Music<<4 ; //00：GB2132 01:GBK
+         Frame_Info[4] = 0x01 | Music<<4 ; //00：GB2132 01:GBK
 	 
 		 for(i = 0; i<5; i++)   				
 	     {  
@@ -44,7 +44,7 @@ void Play_Sound(uint8_t *HZdata)  /*播放声音*/
 	if(!PLAYING)
 	{					
             SYN_FrameInfo(0,HZdata) ;  /*播放*/
-            SYN_FrameInfo(0,HZdata) ;  /*播放*/
+            //SYN_FrameInfo(0,HZdata) ;  /*播放*/
 			//printf("播放中\r\n");
 	}	
 	else

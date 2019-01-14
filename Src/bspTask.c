@@ -13,8 +13,9 @@ void Start_Task(void const * argument)
   osThreadCreate(osThread(EncoderTask), NULL);
   while(1)
   {
-     osDelay(5);
+     osDelay(100);
     Play_Sound("小哥");
+    //SIM_UART_Send("hello",6);
   }
 }
 ///记录编码器数值,整合ADC数据
