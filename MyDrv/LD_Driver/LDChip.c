@@ -127,11 +127,11 @@ void LD_Init_ASR(void)
 void ProcessInt0(void)
 {
 	uint8_t nAsrResCount=0;
-
+    uint32_t ScanTime=HAL_GetTick();
     while(1)
     {
         
-        if(nAsrStatus==LD_ASR_NONE)break;//还没有启动语音识别，就不存在识别了
+        if(nAsrStatus==LD_ASR_NONE)return;//还没有启动语音识别，就不存在识别了
         ucRegVal = LD_ReadReg(0x2B);
 
         // 语音识别产生的中断
@@ -150,6 +150,11 @@ void ProcessInt0(void)
             else
             {
                 nAsrStatus=LD_ASR_FOUNDZERO;
+                if(HAL_GetTick()-ScanTime>1000)
+                {
+                    nAsrStatus=LD_ASR_NONE;
+                    return;
+                }
                 osDelay(100);
             }	
         }
