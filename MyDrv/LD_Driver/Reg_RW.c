@@ -12,6 +12,7 @@
 static uint8_t spi_send_byte(uint8_t byte)
 {
     uint8_t receive;
+    
 	HAL_SPI_TransmitReceive(&hspi1,&byte,&receive,1,0xff);
     return receive;
 }
@@ -40,6 +41,7 @@ void LD_WriteReg(uint8_t data1,uint8_t data2)
     LD3320_delay(1);
 
 	LD_CS_H();
+    LD3320_delay(5);
 
 }
 /***********************************************************
@@ -62,12 +64,13 @@ uint8_t LD_ReadReg(uint8_t reg_add)
     LD3320_delay(1);
 
 	spi_send_byte(reg_add);
-    LD3320_delay(1);
+    LD3320_delay(10);
     
-	i=spi_send_byte(0x00);	/*¶ÁSPI*/
+	i=spi_send_byte(0xff);	/*¶ÁSPI*/
     LD3320_delay(1);
 
 	LD_CS_H();
+    LD3320_delay(5);
 
 	return(i);
 }

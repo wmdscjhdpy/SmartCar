@@ -13,6 +13,7 @@
 #include "bsp.h"
 #include "LDchip.h"
 #include "Reg_RW.h"
+#include "cmsis_os.h"
 uint8_t nLD_Mode = LD_MODE_IDLE;		//	用来记录当前是在进行ASR识别还是在播放MP3
 uint8_t nAsrStatus=0;	
 uint8_t ucRegVal;
@@ -28,6 +29,12 @@ uint8_t ucRegVal;
 **********************************************************/ 
 void LD_reset(void)
 {
+    LD_RST_H();
+	LD3320_delay(100);
+    LD_RST_L();
+	LD3320_delay(100);
+    LD_RST_H();
+	LD3320_delay(100);
 	LD_CS_L();
 	LD3320_delay(100);
 	LD_CS_H();		
@@ -121,31 +128,37 @@ void ProcessInt0(void)
 {
 	uint8_t nAsrResCount=0;
 
-	ucRegVal = LD_ReadReg(0x2B);
+    while(1)
+    {
+        
+        if(nAsrStatus==LD_ASR_NONE)break;//还没有启动语音识别，就不存在识别了
+        ucRegVal = LD_ReadReg(0x2B);
 
-		// 语音识别产生的中断
-			// （有声音输入，不论识别成功或失败都有中断）
-			LD_WriteReg(0x29,0) ;
-			LD_WriteReg(0x02,0) ;
-	
-			if((ucRegVal & 0x10) && LD_ReadReg(0xb2)==0x21 && LD_ReadReg(0xbf)==0x35)		
-				{	 
-						nAsrResCount = LD_ReadReg(0xba);
-			
-						if(nAsrResCount>0 && nAsrResCount<=4) 
-						{
-							nAsrStatus=LD_ASR_FOUNDOK; 				
-						}
-						else
-					    {
-							nAsrStatus=LD_ASR_FOUNDZERO;
-							}	
-				}
-			else
-			 {
-					nAsrStatus=LD_ASR_FOUNDZERO;	//执行没有识别
-				}
+        // 语音识别产生的中断
+        // （有声音输入，不论识别成功或失败都有中断）
+        LD_WriteReg(0x29,0) ;
+        LD_WriteReg(0x02,0) ;
+        if((ucRegVal & 0x10) && LD_ReadReg(0xb2)==0x21 && LD_ReadReg(0xbf)==0x35)		
+        {	 
+            nAsrResCount = LD_ReadReg(0xba);
 
+            if(nAsrResCount>0 && nAsrResCount<=4) 
+            {
+                nAsrStatus=LD_ASR_FOUNDOK; 		
+                break;
+            }
+            else
+            {
+                nAsrStatus=LD_ASR_FOUNDZERO;
+                osDelay(100);
+            }	
+        }
+        else
+         {
+                nAsrStatus=LD_ASR_FOUNDZERO;	//执行没有识别
+                osDelay(100);
+        }
+    }
 		  LD_WriteReg(0x2b, 0);
 		  LD_WriteReg(0x1C,0);/*写0:ADC不可用*/
 		
@@ -246,10 +259,10 @@ uint8_t LD_AsrAddFixed(void)
 	#define DATE_A 4        /*数组二维数值*/
 	#define DATE_B 20		/*数组一维数值*/
 	 uint8_t  sRecog[DATE_A][DATE_B] = {
-                                    "feng gou",\
+                                    "feng shuo",\
                                     "kai deng",\
                                     "guan deng",\
-                                     "quan mie"\
+                                    "quan mie"\
                                     };	/*添加关键词，用户修改*/
 	 uint8_t  pCode[DATE_A] = {
                                         CODE_CMD,\

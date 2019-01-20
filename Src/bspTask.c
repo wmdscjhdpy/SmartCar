@@ -11,12 +11,14 @@ static void VoiceASR_Task(void const * argument);
 void Start_Task(void const * argument)
 {
   //创建编码器任务
+  LED(3,1);
   osThreadDef(EncoderTask, Encoder_Task, osPriorityNormal, 0, 256);
   osThreadCreate(osThread(EncoderTask), NULL);
   osThreadDef(VoiceASRTask, VoiceASR_Task, osPriorityNormal, 0, 256);
   osThreadCreate(osThread(VoiceASRTask), NULL);
   osDelay(1000);
-  Play_Sound("主人你好，我是疯狗，很高兴与你见面！");
+  Play_Sound("锅锅国尬摇锅锅国尬鸽国锅");
+  LED(3,0);
   while(1)
   {
      osDelay(100);
@@ -42,6 +44,7 @@ static void VoiceASR_Task(void const * argument)
     static uint8_t nAsrRes=0;
     static uint8_t Cmdflag=0;//是否收到一级口令的标志位
     nAsrStatus=LD_ASR_RUNING;
+    osDelay(2000);
     if (RunASR()==0)	//	启动一次ASR识别流程：ASR初始化，ASR添加关键词语，启动ASR运算
     {		
         nAsrStatus = LD_ASR_ERROR;
@@ -67,16 +70,20 @@ static void VoiceASR_Task(void const * argument)
                 {
                     LED(1,1);
                     Cmdflag=1;
+                    Play_Sound("老哥想干什么？");
                 }else if(Cmdflag==1)
                 {
                     Cmdflag=0;
+                    LED(1,0);
                     switch(nAsrRes)		   /*对结果执行相关操作,客户修改*/
                       {
                             case CODE_KD:	        /*命令“开灯”*/
                                 LED(2,1);
+                                Play_Sound("灯已经给您打开啦！看一下对不对？");
                             break;
                             case CODE_GD:		/*命令“关灯”*/
                                 LED(2,0);
+                                Play_Sound("我觉得现在灯肯定关了，你看下？");
                             break;
                             case CODE_QM:		/*命令“全灭”*/
                             break;

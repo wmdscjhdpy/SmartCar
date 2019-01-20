@@ -129,7 +129,7 @@ void Delay_( int i)
 {
 	unsigned int j  =  0;
 	unsigned int g  =  0;
-	for (j=0;j<5;j++)
+	for (j=0;j<1;j++)
 	{
 		for (g=0;g<uldata;g++)
 		{
