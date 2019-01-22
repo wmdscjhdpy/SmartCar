@@ -18,7 +18,7 @@
 
 #define OLED_PAGE_SHIFT (0)//发现y坐标会整天偏移 可以由程序决定人工纠偏量
 #define OLED_AS_SCREEN //使用类屏幕型输出方式
-#define OLED_PUTC //如果不需要用到oled重定向到printf 就把这句注释掉
+//#define OLED_PUTC //如果不需要用到oled重定向到printf 就把这句注释掉
 uint8_t IIC_OLED_Send_normal(uint8_t addr, uint8_t reg, uint8_t len, uint8_t data);
 uint8_t IIC_OLED_SendBuffer(uint8_t addr, uint8_t reg, uint8_t len, uint8_t *data);//模拟IIC启用
 

@@ -150,7 +150,7 @@ void ProcessInt0(void)
             else
             {
                 nAsrStatus=LD_ASR_FOUNDZERO;
-                if(HAL_GetTick()-ScanTime>1000)
+                if(HAL_GetTick()-ScanTime>2000)
                 {
                     nAsrStatus=LD_ASR_NONE;
                     return;

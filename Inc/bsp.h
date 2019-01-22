@@ -11,6 +11,7 @@ extern int32_t Enc_Head;//头部编码器值
 extern float Battery_V;
 extern uint16_t Distance0;//红外对管1的电压值
 extern uint16_t Distance1;//红外对管2的电压值
+
 void BSP_Init(void);
 void ADC_Handler(void);
 #define LED(num,value) HAL_GPIO_WritePin(LED##num##_GPIO_Port,LED##num##_Pin,(GPIO_PinState)value);
