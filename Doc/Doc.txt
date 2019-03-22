@@ -1,5 +1,15 @@
 T1的CH1 CH2是编码器模式 CH3 CH4 控制的是头部
+T5CH3(STEERING1)和T5CH4(STEERING2)都是舵机
 T3的12 34 分别为底盘的两个驱动电机
 串口4是语音转义的通信串口 波特率为9600，当前因为硬件问题改为模拟串口，使用定时器10作为辅助定时器
 串口3为OPENMV通信串口
 串口1为WIFI串口
+
+以最奇怪的那个口在右上角，电源插口在右下角的背面来看，
+左上角	第一个：GND，T5CH4，VM_2
+	第二个：中间T5CH3
+	第三个：GND，U1RX，U1TX，5V
+	第四个：GND，IIC_SDA，IIC_SCL，U3RX，U3TX，5V
+左下角	第一个：A1,A2
+	第二个：B2,B1
+	第三个：Dout2,Dout1,GND,T1CH1,T1CH2,3V3
