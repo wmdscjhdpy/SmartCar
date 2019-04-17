@@ -56,9 +56,11 @@ void DebugMon_Handler(void);
 void SysTick_Handler(void);
 void DMA1_Stream1_IRQHandler(void);
 void ADC_IRQHandler(void);
+void USART1_IRQHandler(void);
 void USART3_IRQHandler(void);
 void TIM8_TRG_COM_TIM14_IRQHandler(void);
 void DMA2_Stream0_IRQHandler(void);
+void DMA2_Stream2_IRQHandler(void);
 
 #ifdef __cplusplus
 }

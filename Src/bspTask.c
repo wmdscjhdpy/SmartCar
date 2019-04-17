@@ -8,20 +8,53 @@
 //任务声明
 static void Encoder_Task(void const * argument);
 static void VoiceASR_Task(void const * argument);
+static void Head_Task(void const * argument);
+int16_t Lflag=0;
+int16_t Rflag=0;
 void Start_Task(void const * argument)
 {
   //创建编码器任务
   LED(3,1);
   osThreadDef(EncoderTask, Encoder_Task, osPriorityNormal, 0, 256);
   osThreadCreate(osThread(EncoderTask), NULL);
+  osThreadDef(HeadTask, Head_Task, osPriorityNormal, 0, 128);
+  osThreadCreate(osThread(HeadTask), NULL);
   osThreadDef(VoiceASRTask, VoiceASR_Task, osPriorityNormal, 0, 256);
   osThreadCreate(osThread(VoiceASRTask), NULL);
   osDelay(1000);
-  Play_Sound("锅锅国尬摇锅锅国尬鸽国锅");
+  //Play_Sound("锅锅国尬摇锅锅国尬鸽国锅");
+  Play_Sound("你好");
+  HAND_UP;
+  osDelay(500);
+  HAND_DOWN;
+  osDelay(500);
+  HAND_UP;
+  osDelay(500);
+  HAND_DOWN;
+  osDelay(500);
   LED(3,0);
   while(1)
   {
      osDelay(100);
+      if(Lflag>0)
+      {
+          HEAD_FORWARD(Lflag);
+          //LEFT_FORWARD(Lflag);
+      }else if(Lflag<0){
+          HEAD_REVERSE(-Lflag);
+          //LEFT_REVERSE(-Lflag);
+      }else{
+          HEAD_Break;
+          //LEFT_Break;
+      }
+      if(Rflag>0)
+      {
+          RIGHT_FORWARD(Rflag);
+      }else if(Rflag<0){
+          RIGHT_REVERSE(-Rflag);
+      }else{
+          RIGHT_Break;
+      }
     //SIM_UART_Send("hello",6);
   }
 }
@@ -33,7 +66,7 @@ static void Encoder_Task(void const * argument)
    while(1)
    {
        enc_dx=TIM1->CNT-0x7fff;
-       Enc_Head+=enc_dx;
+       car.HeadRealEnc+=enc_dx;
        TIM1->CNT=0x7fff;
        ADC_Handler();
        osDelay(10);
@@ -100,5 +133,33 @@ static void VoiceASR_Task(void const * argument)
             break;
         }//switch	
         osDelay(100);
+    }
+}
+//头部的管理任务
+//注意 这里的头部 正转是抬头
+void Head_Task(void const * argument)
+{
+    int tmp_enc=car.HeadRealEnc;
+    HEAD_REVERSE(500);
+    for(;;)
+    {
+        osDelay(100);
+        if(ABS(tmp_enc-car.HeadRealEnc)<3)
+            break;
+        tmp_enc=car.HeadRealEnc;
+    }
+    car.HeadRealEnc=-84;
+    //进行此步骤校准完成后 编码器的值为-84
+    HEAD_Break;
+    car.HeadTargetCurrent=500;//默认值
+    for(;;)
+    {//处理头部目标位置的控制
+        if(ABS(car.HeadTargetEnc-car.HeadRealEnc)>5)
+        {
+            MECH_RUN(HEAD,SIGN(car.HeadTargetEnc-car.HeadRealEnc)*car.HeadTargetCurrent);
+        }else{
+            HEAD_Break;
+        }
+        osDelay(50);
     }
 }

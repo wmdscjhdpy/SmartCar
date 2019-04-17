@@ -29,8 +29,13 @@ void Debug_IT()
 static void Debug_Handle()
 {
 	Rec=(Rec_flame_t*)rebuf;//接收指针指向数组头
-    if(Rec->Head==0x4f && Rec->End==0x53)//校验数据帧
+    if(Rec->Head==0x4f)//校验数据帧
     {
-        
+        uint8_t parity=0x00;//校验字节
+        for(uint8_t i=0;i<sizeof(Rec_flame_t)-1;i++)//对帧内的前面所有字节进行累加求和
+        {
+            parity+=rebuf[i];
+        }
+        if(parity!=Rec->End)return;//校验不符合，是错误数据帧，丢弃
     }
 }
