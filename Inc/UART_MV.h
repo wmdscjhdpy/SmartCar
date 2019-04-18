@@ -18,5 +18,5 @@ void Debug_Init(void);
 
 //该函数需要放在串口中断服务函数里面
 void Debug_IT(void);
-
+static void MV_Enable(void);
 #endif

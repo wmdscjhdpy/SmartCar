@@ -1,8 +1,4 @@
 #include "bsp.h"
-#include "cmsis_os.h"
-#include "voice.h"
-#include "LDchip.h"
-#include "Reg_RW.h"
 //ID声明
 
 //任务声明
@@ -35,17 +31,20 @@ void Start_Task(void const * argument)
   LED(3,0);
   while(1)
   {
+      //LEFT_FORWARD(1000);
+      //RIGHT_FORWARD(1000);
+      //continue;
      osDelay(100);
       if(Lflag>0)
       {
-          HEAD_FORWARD(Lflag);
-          //LEFT_FORWARD(Lflag);
+          //HEAD_FORWARD(Lflag);
+          LEFT_FORWARD(Lflag);
       }else if(Lflag<0){
-          HEAD_REVERSE(-Lflag);
-          //LEFT_REVERSE(-Lflag);
+          //HEAD_REVERSE(-Lflag);
+          LEFT_REVERSE(-Lflag);
       }else{
-          HEAD_Break;
-          //LEFT_Break;
+          //HEAD_Break;
+          LEFT_Break;
       }
       if(Rflag>0)
       {
@@ -143,7 +142,7 @@ void Head_Task(void const * argument)
     HEAD_REVERSE(500);
     for(;;)
     {
-        osDelay(100);
+        osDelay(200);
         if(ABS(tmp_enc-car.HeadRealEnc)<3)
             break;
         tmp_enc=car.HeadRealEnc;
@@ -160,6 +159,6 @@ void Head_Task(void const * argument)
         }else{
             HEAD_Break;
         }
-        osDelay(50);
+        osDelay(10);
     }
 }

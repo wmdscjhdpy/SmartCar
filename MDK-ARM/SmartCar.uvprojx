@@ -387,16 +387,6 @@
               <FilePath>.\startup_stm32f405xx.s</FilePath>
             </File>
             <File>
-              <FileName>bsp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\bsp.c</FilePath>
-            </File>
-            <File>
-              <FileName>bspTask.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\bspTask.c</FilePath>
-            </File>
-            <File>
               <FileName>UART_MV.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\UART_MV.c</FilePath>
@@ -675,6 +665,26 @@
               <FileName>Reg_RW.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\MyDrv\LD_Driver\Reg_RW.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>BSP</GroupName>
+          <Files>
+            <File>
+              <FileName>bspTask.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\bspTask.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\bsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_action.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\bsp_action.c</FilePath>
             </File>
           </Files>
         </Group>

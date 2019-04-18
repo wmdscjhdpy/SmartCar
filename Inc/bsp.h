@@ -7,6 +7,11 @@
 #include "tim.h"
 #include "adc.h"
 #include "spi.h"
+#include "cmsis_os.h"
+#include "voice.h"
+#include "LDchip.h"
+#include "Reg_RW.h"
+#include "iic_oled.h"
 #define ADC_BUF_NUM 30
 
 extern float Battery_V;
@@ -15,8 +20,9 @@ extern uint16_t Distance1;//红外对管2的电压值
 
 void BSP_Init(void);
 void ADC_Handler(void);
+void Car_Move(float forward,float sita);
 //通用宏定义
-#define ABS(x) ((x)>0?(x):(-x))
+#define ABS(x) ((x)>0?(x):-(x))
 #define SIGN(x) ((x)/ABS(x))
 #define LIMIT(x,l) (ABS(x)>(l)?SIGN(x)*(l):(x))
 #define LED(num,value) HAL_GPIO_WritePin(LED##num##_GPIO_Port,LED##num##_Pin,(GPIO_PinState)value);
@@ -46,6 +52,7 @@ typedef struct {
     int HeadTargetEnc;
     int HeadRealEnc;
     int HeadTargetCurrent;
+    int action_priority;//事件优先级，优先级高的会抢占优先级低的时间 可以用线程优先级来解决？
 }car_t;
 extern car_t car;
 #endif

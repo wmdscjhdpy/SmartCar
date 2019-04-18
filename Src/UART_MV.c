@@ -4,6 +4,7 @@
 
 #define BUF_MAX 30 //设定接收最高缓存区
 uint8_t rebuf[BUF_MAX]={0};
+uint8_t sebuf[BUF_MAX]={0};
 static void Debug_Handle(void);
 static Rec_flame_t* Rec;//用于接收数据
 //作为调试用的指令 统一使用DMA接收 加串口空闲中断的方式来调用 该函数需要在主函数调用一次
@@ -37,5 +38,21 @@ static void Debug_Handle()
             parity+=rebuf[i];
         }
         if(parity!=Rec->End)return;//校验不符合，是错误数据帧，丢弃
+        //真正的数据处理段在下面
     }
+}
+
+//给MV发使能位
+static void MV_Enable(void)
+{
+    Rec_flame_t* send=(Rec_flame_t*)sebuf;
+    send->Head=0x4f;
+    send->State=0x01;
+    uint8_t parity=0x00;//校验字节
+    for(uint8_t i=0;i<sizeof(Rec_flame_t)-1;i++)//对帧内的前面所有字节进行累加求和
+    {
+        parity+=sebuf[i];
+    }
+    send->End=parity;
+    HAL_UART_Transmit(&HUART,sebuf,sizeof(Rec_flame_t),0xff);
 }
