@@ -29,12 +29,14 @@ void Start_Task(void const * argument)
   HAND_DOWN;
   osDelay(500);
   LED(3,0);
+  MV_Enable();
   while(1)
   {
       //LEFT_FORWARD(1000);
       //RIGHT_FORWARD(1000);
-      //continue;
      osDelay(100);
+      continue;
+      //后面的代码是调试用的
       if(Lflag>0)
       {
           //HEAD_FORWARD(Lflag);
@@ -139,7 +141,7 @@ static void VoiceASR_Task(void const * argument)
 void Head_Task(void const * argument)
 {
     int tmp_enc=car.HeadRealEnc;
-    HEAD_REVERSE(500);
+    HEAD_REVERSE(800);
     for(;;)
     {
         osDelay(200);

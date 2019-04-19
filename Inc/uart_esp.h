@@ -1,5 +1,5 @@
-#ifndef UART_Debug
-#define UART_Debug
+#ifndef ESP_Debug
+#define ESP_Debug
 
 #define ESPUART huart1 //在这里修改调试用的串口
 #include "stm32f4xx_hal.h" //如果32型号不一样要修改这里

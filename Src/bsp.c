@@ -28,6 +28,8 @@ void BSP_Init()
     HAL_ADC_Start_DMA(&hadc1,ADC_Buffer,ADC_BUF_NUM);
     //ESP8266串口
     ESP_Init();
+    //MV串口
+    Debug_Init();
     //屏幕初始化
     OLED_Init();
     OLED_ON();

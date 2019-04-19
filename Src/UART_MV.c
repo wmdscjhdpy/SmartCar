@@ -1,6 +1,7 @@
 #include "UART_MV.h"
 #include "usart.h" //该文件出现问题的时候 说明cube没有把外设单独生成c文件 只需要引用另外一个头文件就可以了
 #include "string.h"
+#include "bsp.h"
 
 #define BUF_MAX 30 //设定接收最高缓存区
 uint8_t rebuf[BUF_MAX]={0};
@@ -39,15 +40,22 @@ static void Debug_Handle()
         }
         if(parity!=Rec->End)return;//校验不符合，是错误数据帧，丢弃
         //真正的数据处理段在下面
+        switch(Rec->State)
+        {
+            case MvStateCarCtl:
+                Car_Move(Rec->XData,Rec->YData);
+            break;
+        }
     }
 }
 
 //给MV发使能位
-static void MV_Enable(void)
+void MV_Enable(void)
 {
     Rec_flame_t* send=(Rec_flame_t*)sebuf;
     send->Head=0x4f;
     send->State=0x01;
+    send->adden1=0x01;//指定为物体追踪指令
     uint8_t parity=0x00;//校验字节
     for(uint8_t i=0;i<sizeof(Rec_flame_t)-1;i++)//对帧内的前面所有字节进行累加求和
     {
